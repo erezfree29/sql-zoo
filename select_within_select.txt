@@ -1,0 +1,40 @@
+1)SELECT name FROM world
+  WHERE population >
+     (SELECT population FROM world
+      WHERE name='Russia')
+2)SELECT name FROM world
+  WHERE gdp / population  >
+     (SELECT gdp / population FROM world
+      WHERE name='United Kingdom')
+AND continent = 'EUROPE'
+3)SELECT name, continent FROM world
+  WHERE continent = (select continent from world
+  WHERE name = 'Argentina') 
+ OR continent = (select continent from world
+  WHERE name = 'Australia') 
+order by name
+4)SELECT name , population from world
+WHERE population > (SELECT population from world 
+WHERE name = 'Canada') AND population < 
+(SELECT population from world 
+WHERE name = 'Poland')
+5)SELECT name,  CONCAT(ROUND(population / (SELECT population from world where name = 'Germany')* 100,0),'%')
+from world 
+WHERE continent = 'EUROPE'
+6)SELECT name from world 
+where gdp > (select max(gdp) from world where continent = 'europe')
+7)SELECT continent, name, area FROM world x
+  WHERE area >= ALL
+    (SELECT area FROM world y
+        WHERE y.continent=x.continent
+          AND area>0)
+8)SELECT continent, name FROM world x
+  WHERE name <= ALL
+    (SELECT name FROM world y
+        WHERE y.continent=x.continent)
+
+SELECT name,continent,population from world 
+WHERE  continent IN 
+(select continent from world y
+WHERE population <= 25000000
+group by continent)
